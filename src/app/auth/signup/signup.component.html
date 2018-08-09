@@ -56,9 +56,11 @@
     </mat-checkbox>
     <br>
     <button 
+      *ngIf="!isLoading"
       type="submit" 
       mat-raised-button 
       color="primary"
       [disabled]="f.invalid">Submit</button>
+    <mat-spinner *ngIf="isLoading" diameter="40"></mat-spinner>
   </form>
 </section>
