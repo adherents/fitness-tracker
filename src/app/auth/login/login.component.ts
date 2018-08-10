@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { AuthService } from '../auth.service';
 import { UIService } from '../../shared/ui.service';
+import * as fromRoot from '../../app.reducer';
 
 @Component({
   selector: 'ft-login',
@@ -12,17 +14,20 @@ import { UIService } from '../../shared/ui.service';
 })
 export class LoginComponent implements OnInit, OnDestroy {
   loginForm: FormGroup;
-  isLoading = false;
-  private loadingSubs: Subscription;
+  // isLoading = false;
+  isLoading$: Observable<boolean>;
+  // private loadingSubs: Subscription;
 
   constructor(
     private authService: AuthService,
-    private uiService: UIService
+    private uiService: UIService,
+    private store: Store<fromRoot.State>
   ) { }
 
   ngOnInit() {
-    this.loadingSubs = this.uiService.loadingStateChanged
-      .subscribe(loading => this.isLoading = loading);
+    this.isLoading$ = this.store.select(fromRoot.getIsLoading);
+    /* this.loadingSubs = this.uiService.loadingStateChanged
+      .subscribe(loading => this.isLoading = loading); */
     this.loginForm = new FormGroup({
       email: new FormControl('', {
         validators: [Validators.required, Validators.email]
@@ -39,9 +44,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (this.loadingSubs) {
+    /* if (this.loadingSubs) {
       this.loadingSubs.unsubscribe();
-    }
+    } */
   }
 
 }
