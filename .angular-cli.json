@@ -19,7 +19,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "ft",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "my-theme.scss"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
